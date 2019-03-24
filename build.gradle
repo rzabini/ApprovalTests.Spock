@@ -1,0 +1,12 @@
+plugins {
+    id('groovy')
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.approvaltests:approvaltests:2.0.2'
+    compile 'org.spockframework:spock-core:1.3-groovy-2.5'
+}
