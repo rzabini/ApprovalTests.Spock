@@ -1,5 +1,7 @@
 plugins {
-    id('groovy')
+    id 'groovy'
+    id "jacoco"
+    id "ru.vyarus.quality" version "3.4.0"
 }
 
 repositories {

@@ -5,16 +5,27 @@ import org.approvaltests.Approvals;
 import org.approvaltests.namer.ApprovalNamer;
 import org.approvaltests.namer.AttributeStackSelector;
 
+import java.util.Arrays;
+
+/**
+ *
+ */
 public class SpockApprovals extends Approvals {
 
     static {
-        AttributeStackSelector.classNames = new String[]{"org.spockframework.runtime.model.FeatureMetadata"};
+        addTestClassAnnotation("org.spockframework.runtime.model.FeatureMetadata");
 
-        SpockApprovals.namerCreater = new Loader<ApprovalNamer>() {
+        Approvals.namerCreater = new Loader<ApprovalNamer>() {
             @Override
             public ApprovalNamer load() {
                 return new ApprovalNamerWithCustomPath(new SpockStackTraceNamer());
             }
         };
+    }
+
+    private static void addTestClassAnnotation(final String annotation) {
+        final int n = AttributeStackSelector.classNames.length;
+        AttributeStackSelector.classNames = Arrays.copyOf(AttributeStackSelector.classNames, n + 1);
+        AttributeStackSelector.classNames[n] = annotation;
     }
 }

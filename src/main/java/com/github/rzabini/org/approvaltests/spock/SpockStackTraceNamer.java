@@ -18,31 +18,40 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement, String> {
-    private StackTraceReflectionResult info = getCurrentFileForMethod(new AttributeStackSelector(),this);
+/**
+ * Finds text description of Spock specification methods.
+ */
+class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement, String> {
+    private final StackTraceReflectionResult info = getCurrentFileForMethod(new AttributeStackSelector(), this);
 
 
-    private static StackTraceReflectionResult getCurrentFileForMethod(StackElementSelector stackElementSelector, Function<StackTraceElement, String> testMethodNamer) {
-        StackTraceElement trace[] = ThreadUtils.getStackTrace();
+    private static StackTraceReflectionResult getCurrentFileForMethod(
+            final StackElementSelector stackElementSelector,
+            final Function<StackTraceElement, String> testMethodNamer) {
+        final StackTraceElement[] trace = ThreadUtils.getStackTrace();
         stackElementSelector.increment();
         return getCurrentFileForMethod(stackElementSelector, trace, testMethodNamer);
     }
 
-    private static StackTraceReflectionResult getCurrentFileForMethod(StackElementSelector stackElementSelector,
-                                                                      StackTraceElement[] trace, Function<StackTraceElement, String> testMethodNamer) {
+    private static StackTraceReflectionResult getCurrentFileForMethod(
+            final StackElementSelector stackElementSelector,
+            final StackTraceElement[] trace,
+            final Function<StackTraceElement, String> testMethodNamer) {
         try {
-            StackTraceElement element = stackElementSelector.selectElement(trace);
+            final StackTraceElement element = stackElementSelector.selectElement(trace);
             return getInfo(element, testMethodNamer);
         } catch (Throwable t) {
             throw ObjectUtils.throwAsError(t);
         }
     }
 
-    private static StackTraceReflectionResult getInfo(StackTraceElement element, Function<StackTraceElement, String> testMethodNamer) throws ClassNotFoundException {
-        String fullClassName = element.getClassName();
-        String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
-        String fileName = element.getFileName();
-        File dir = ClassUtils.getSourceDirectory(ObjectUtils.loadClass(fullClassName), fileName);
+    private static StackTraceReflectionResult getInfo(
+            final StackTraceElement element,
+            final Function<StackTraceElement, String> testMethodNamer) throws ClassNotFoundException {
+        final String fullClassName = element.getClassName();
+        final String className = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
+        final String fileName = element.getFileName();
+        final File dir = ClassUtils.getSourceDirectory(ObjectUtils.loadClass(fullClassName), fileName);
         return new StackTraceReflectionResult(dir, className, testMethodNamer.apply(element));
     }
 
@@ -58,35 +67,39 @@ public class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceE
     }
 
     @Override
-    public String apply(StackTraceElement stackTraceElement) {
+    public String apply(final StackTraceElement stackTraceElement) {
         return readMethodName(stackTraceElement);
     }
 
-    private String readMethodName(StackTraceElement element) {
-        String methodName = element.getMethodName();
-        String fullClassName = element.getClassName();
-        Class clazz = getClazz(fullClassName);
+    private String readMethodName(final StackTraceElement element) {
+        final String methodName = element.getMethodName();
+        final String fullClassName = element.getClassName();
+        final Class clazz = getClazz(fullClassName);
 
-        boolean isSpockFeature = Specification.class.isAssignableFrom(clazz);
-        if (isSpockFeature) {
-            List<Method> methods = Arrays.stream(clazz.getDeclaredMethods())
+        if (isSpockFeature(clazz)) {
+            final List<Method> methods = Arrays.stream(clazz.getDeclaredMethods())
                     .filter(method -> method.getName().equals(methodName)).collect(Collectors.toList());
 
-            FeatureMetadata featureMetadata = methods.get(0).getAnnotation(FeatureMetadata.class);
+            final FeatureMetadata featureMetadata = methods.get(0).getAnnotation(FeatureMetadata.class);
             String name = featureMetadata.name();
-            if (featureMetadata.parameterNames().length > 0)
-                name = name + Arrays.toString(featureMetadata.parameterNames());
+            if (featureMetadata.parameterNames().length > 0) {
+                name = new StringBuilder(name).append(Arrays.toString(featureMetadata.parameterNames())).toString();
+            }
             return name;
         } else {
             return methodName;
         }
     }
 
-    private Class<?> getClazz(String fullClassName) {
+    private boolean isSpockFeature(final Class clazz) {
+        return Specification.class.isAssignableFrom(clazz);
+    }
+
+    private Class<?> getClazz(final String fullClassName) {
         try {
             return ObjectUtils.loadClass(fullClassName);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
