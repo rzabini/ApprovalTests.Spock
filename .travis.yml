@@ -22,6 +22,5 @@ install:
 script:
 - './gradlew build --info --stacktrace'
 
-
 after_success:
 - ./gradlew jacocoTestReport
