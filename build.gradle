@@ -8,7 +8,6 @@ plugins {
 
 }
 
-apply from: 'gradle/credentials.gradle'
 apply from: 'gradle/publishing.gradle'
 apply from: 'gradle/bintray.gradle'
 
@@ -29,7 +28,7 @@ if (!version.toString().endsWith('-SNAPSHOT'))
 
 semanticRelease {
     repo {
-        ghToken = project.ghToken
+        ghToken = githubToken
         releaseAsset jar
         //releaseAsset sourcesJar, name: "the-sources.jar", label: 'the sources jar', contentType: 'application/zip'
     }
