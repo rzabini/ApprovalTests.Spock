@@ -1,0 +1,22 @@
+// Handles publication of distributions to Bintray
+
+bintray {
+    user = bintrayUsername
+    key = bintrayKey
+    publications = ['mavenJava']
+    pkg {
+        repo = 'maven'
+        userOrg = 'rzabini'
+        name = 'approvaltests-spock'
+        desc = 'Porting of ApprovalTest verification library for Java to Spock Test Framework'
+        licenses = ['Apache-2.0']
+        labels = ['spock']
+        websiteUrl = 'https://github.com/rzabini/ApprovalTests.Spock'
+        issueTrackerUrl = 'https://github.com/rzabini/ApprovalTests.Spock/issues'
+        vcsUrl = 'https://github.com/rzabini/ApprovalTests.Spock'
+        publicDownloadNumbers = true
+        version {
+            vcsTag = project.version
+            }
+    }
+}
