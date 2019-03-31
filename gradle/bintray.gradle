@@ -1,8 +1,8 @@
 // Handles publication of distributions to Bintray
 
 bintray {
-    user = bintrayUsername
-    key = bintrayKey
+    user = hasProperty('bintrayUsername')?bintrayUsername:''
+    key = hasProperty('bintrayKey')?bintrayKey:''
     publications = ['mavenJava']
     pkg {
         repo = 'maven'
