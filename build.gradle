@@ -2,6 +2,8 @@ plugins {
     id 'groovy'
     id "jacoco"
     id "ru.vyarus.quality" version "3.4.0"
+    id "de.gliderpilot.semantic-release" version "1.4.0"
+
 }
 
 repositories {
