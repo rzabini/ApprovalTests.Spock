@@ -4,6 +4,7 @@ plugins {
     id "ru.vyarus.quality" version "3.4.0"
     id "de.gliderpilot.semantic-release" version "1.4.0"
     id "com.jfrog.bintray" version "1.8.4"
+    id 'maven'
     id 'maven-publish'
 
 }
