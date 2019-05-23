@@ -1,0 +1,2 @@
+[0] = Application Sample says: hello world
+[1] = Application Sample says warning
