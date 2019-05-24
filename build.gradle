@@ -2,10 +2,11 @@ plugins {
     id 'groovy'
     id "jacoco"
     id "ru.vyarus.quality" version "3.4.0"
-    id "de.gliderpilot.semantic-release" version "1.4.0"
+    //id "de.gliderpilot.semantic-release" version "1.4.0"
     id "com.jfrog.bintray" version "1.8.4"
     id 'maven'
     id 'maven-publish'
+    id 'signing'
 
 }
 
@@ -23,11 +24,12 @@ dependencies {
 }
 
 group = 'com.github.rzabini'
+version = '1.0.0'
 
-if (!version.toString().endsWith('-SNAPSHOT'))
+/*if (!version.toString().endsWith('-SNAPSHOT'))
     publish.dependsOn bintrayUpload
-
-
+*/
+/*
 semanticRelease {
     repo {
         ghToken = hasProperty('githubToken')?githubToken:''
@@ -36,3 +38,4 @@ semanticRelease {
     }
 }
 
+*/
