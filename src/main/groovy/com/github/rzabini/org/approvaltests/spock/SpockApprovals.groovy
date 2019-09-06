@@ -16,6 +16,10 @@ class SpockApprovals extends Approvals {
         verify(combinations(args).collect { "$it => ${function.call(it)}" }.join('\n'))
     }
 
+    static void verify(obj){
+        Approvals.verify(obj)
+    }
+
     static {
         addTestClassAnnotation('org.spockframework.runtime.model.FeatureMetadata')
 
