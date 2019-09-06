@@ -24,7 +24,7 @@ dependencies {
 }
 
 group = 'com.github.rzabini'
-version = '1.0.0'
+version = '1.0.1'
 
 /*if (!version.toString().endsWith('-SNAPSHOT'))
     publish.dependsOn bintrayUpload
