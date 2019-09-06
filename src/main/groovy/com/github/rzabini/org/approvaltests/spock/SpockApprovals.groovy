@@ -16,7 +16,8 @@ class SpockApprovals extends Approvals {
         verify(combinations(args).collect { "$it => ${function.call(it)}" }.join('\n'))
     }
 
-    static void verify(obj){
+    @SuppressWarnings(['MethodParameterTypeRequired', 'NoDef'])
+    static void verify(obj) {
         Approvals.verify(obj)
     }
 
