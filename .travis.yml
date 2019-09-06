@@ -21,7 +21,7 @@ before_install:
 install:
 - echo "skip default gradlew assemble"
 script:
-- './gradlew build --info --stacktrace  --tests com.github.rzabini.org.approvaltests.spock.VerifySpecification'
+- './gradlew clean test --info --stacktrace  --tests com.github.rzabini.org.approvaltests.spock.VerifySpecification'
 
 after_success:
 - ./gradlew jacocoTestReport
