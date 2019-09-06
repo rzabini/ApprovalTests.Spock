@@ -42,7 +42,9 @@ semanticRelease {
 
 test {
     testLogging {
-        events "passed", "skipped", "failed"
-        exceptionFormat "full"
+        info {
+            events "passed", "skipped", "failed"
+            exceptionFormat "full"
+        }
     }
 }
