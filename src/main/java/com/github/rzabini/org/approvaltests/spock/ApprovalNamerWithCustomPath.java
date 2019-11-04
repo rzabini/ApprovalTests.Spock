@@ -20,6 +20,6 @@ public class ApprovalNamerWithCustomPath implements ApprovalNamer {
 
     @Override
     public String getSourceFilePath() {
-        return approvalNamer.getSourceFilePath().replaceAll("test/(groovy|java)", "test/resources");
+        return approvalNamer.getSourceFilePath().replaceAll("test(\\/|\\\\)(groovy|java)", "test$1resources");
     }
 }
