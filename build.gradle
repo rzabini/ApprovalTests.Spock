@@ -13,6 +13,9 @@ plugins {
 apply from: 'gradle/publishing.gradle'
 apply from: 'gradle/bintray.gradle'
 
+import org.eclipse.jgit.api.Git
+import java.io.File
+
 repositories {
     mavenCentral()
 }
@@ -24,7 +27,6 @@ dependencies {
 }
 
 group = 'com.github.rzabini'
-version = '1.0.2'
 
 test {
     testLogging {
@@ -44,7 +46,9 @@ versioner {
     pattern {
         pattern = "%M.%m.%p(.%c)"
     }
-    tag {
-        prefix = 'v'
-    }
+}
+
+project.afterEvaluate {
+    if(!Git.open(new File("${project.rootDir}/.git")).status().call().isClean())
+        project.version = project.version + '-dirty'
 }
