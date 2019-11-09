@@ -26,6 +26,6 @@ public class ApprovalNamerWithCustomPath implements ApprovalNamer {
     public String getSourceFilePath() {
         return approvalNamer.getSourceFilePath().replaceAll(
                 TEST_DIRECTORY_NAME + Matcher.quoteReplacement(File.separator) + "(groovy|java)",
-                TEST_DIRECTORY_NAME + File.separator + "resources");
+                TEST_DIRECTORY_NAME + Matcher.quoteReplacement(File.separator) + "resources");
     }
 }
