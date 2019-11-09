@@ -2,7 +2,7 @@ package com.github.rzabini.org.approvaltests.spock
 
 import org.approvaltests.namer.ApprovalNamer
 import spock.lang.Specification
-import spock.lang.Unroll
+import spock.util.environment.OperatingSystem
 
 class ApprovalNamerSpecification extends Specification {
 
@@ -11,14 +11,15 @@ class ApprovalNamerSpecification extends Specification {
         def spockNamer = Mock(ApprovalNamer)
         spockNamer.getSourceFilePath() >> path
 
-        ApprovalNamerWithCustomPath customNamer = new ApprovalNamerWithCustomPath(spockNamer);
+        ApprovalNamerWithCustomPath customNamer = new ApprovalNamerWithCustomPath(spockNamer)
 
         expect:
         customNamer.getSourceFilePath().equals(targetPath)
 
         where:
-        path                                                                             | targetPath
-        "C:\\Users\\username\\src\\gwp-api-tests\\.\\src\\test\\groovy\\com\\jhi\\gwp\\" | "C:\\Users\\username\\src\\gwp-api-tests\\.\\src\\test\\resources\\com\\jhi\\gwp\\"
-        "/Users/username/src/gwp-api-tests/./src/test/groovy/com/jhi/gwp/"               | "/Users/username/src/gwp-api-tests/./src/test/resources/com/jhi/gwp/"
+            [path, targetPath] << [OperatingSystem.current.isWindows()?
+                                           ["C:\\Users\\username\\src\\gwp-api-tests\\.\\src\\test\\groovy\\com\\jhi\\gwp\\", "C:\\Users\\username\\src\\gwp-api-tests\\.\\src\\test\\resources\\com\\jhi\\gwp\\"]
+                                           :["/Users/username/src/gwp-api-tests/./src/test/groovy/com/jhi/gwp/", "/Users/username/src/gwp-api-tests/./src/test/resources/com/jhi/gwp/"]]
     }
+
 }
