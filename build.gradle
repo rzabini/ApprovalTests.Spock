@@ -44,7 +44,7 @@ versioner {
         patch = 2
     }
     pattern {
-        pattern = "%M.%m.%p(.%c)"
+        pattern = "%M.%m.%p(-%c)"
     }
 }
 
