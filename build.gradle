@@ -44,11 +44,11 @@ versioner {
         patch = 2
     }
     pattern {
-        pattern = "%M.%m.%p(-%c)"
+        pattern = "%M.%m.%p(-%c)(+%h)"
     }
 }
 
 project.afterEvaluate {
-    if(!Git.open(new File("${project.rootDir}/.git")).status().call().isClean())
-        project.version = project.version + '-dirty'
+    //if(!Git.open(new File("${project.rootDir}/.git")).status().call().isClean())
+    //    project.version = project.version + '-dirty'
 }
