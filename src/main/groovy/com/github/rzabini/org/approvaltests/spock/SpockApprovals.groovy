@@ -21,6 +21,26 @@ class SpockApprovals extends Approvals {
         Approvals.verify(obj)
     }
 
+    @SuppressWarnings(['MethodParameterTypeRequired', 'NoDef', 'DuplicateStringLiteral'])
+    static void verifyAsJson(obj) {
+        Approvals.verifyAsJson(obj)
+    }
+
+    @SuppressWarnings(['MethodParameterTypeRequired', 'NoDef', 'DuplicateStringLiteral'])
+    static void verifyXml(String xml) {
+        Approvals.verifyXml(xml)
+    }
+
+    @SuppressWarnings(['MethodParameterTypeRequired', 'NoDef', 'DuplicateStringLiteral'])
+    static void verifyEachFileInDirectory(File directory, obj) {
+        Approvals.verifyEachFileInDirectory(directory, obj)
+    }
+
+    @SuppressWarnings(['MethodParameterTypeRequired', 'NoDef', 'DuplicateStringLiteral'])
+    static void verifyEachFileInDirectory(File directory) {
+        Approvals.verifyEachFileInDirectory(directory)
+    }
+
     static {
         addTestClassAnnotation('org.spockframework.runtime.model.FeatureMetadata')
 
