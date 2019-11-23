@@ -1,6 +1,5 @@
 package com.github.rzabini.org.approvaltests.spock;
 
-import com.spun.util.ClassUtils;
 import com.spun.util.ObjectUtils;
 import com.spun.util.ThreadUtils;
 import com.spun.util.io.StackElementSelector;
@@ -50,8 +49,7 @@ class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement,
             final Function<StackTraceElement, String> testMethodNamer) throws ClassNotFoundException {
         final String fullClassName = element.getClassName();
         final String className = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
-        final String fileName = element.getFileName();
-        final File dir = ClassUtils.getSourceDirectory(ObjectUtils.loadClass(fullClassName), fileName);
+        final File dir = SourceDirectory.of(fullClassName).toFile();
         return new StackTraceReflectionResult(dir, className, testMethodNamer.apply(element));
     }
 
