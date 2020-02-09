@@ -81,7 +81,8 @@ class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement,
             final FeatureMetadata featureMetadata = methods.get(0).getAnnotation(FeatureMetadata.class);
             String name = featureMetadata.name();
             if (featureMetadata.parameterNames().length > 0) {
-                name = name + Arrays.toString(featureMetadata.parameterNames());
+                name = new StringBuilder(name)
+                        .append(Arrays.toString(featureMetadata.parameterNames())).toString();
             }
             return name;
         } else {
