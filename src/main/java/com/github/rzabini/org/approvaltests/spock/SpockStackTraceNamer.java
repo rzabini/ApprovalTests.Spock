@@ -46,11 +46,11 @@ class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement,
 
     private static StackTraceReflectionResult getInfo(
             final StackTraceElement element,
-            final Function<StackTraceElement, String> testMethodNamer) throws ClassNotFoundException {
+            final Function<StackTraceElement, String> testMethodNamer) {
         final String fullClassName = element.getClassName();
         final String className = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
         final File dir = SourceDirectory.of(fullClassName).toFile();
-        return new StackTraceReflectionResult(dir, className, testMethodNamer.apply(element));
+        return new StackTraceReflectionResult(dir, className, fullClassName, testMethodNamer.apply(element));
     }
 
     @Override
@@ -72,7 +72,7 @@ class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement,
     private String readMethodName(final StackTraceElement element) {
         final String methodName = element.getMethodName();
         final String fullClassName = element.getClassName();
-        final Class clazz = getClazz(fullClassName);
+        final Class<?> clazz = getClazz(fullClassName);
 
         if (isSpockFeature(clazz)) {
             final List<Method> methods = Arrays.stream(clazz.getDeclaredMethods())
@@ -81,7 +81,7 @@ class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement,
             final FeatureMetadata featureMetadata = methods.get(0).getAnnotation(FeatureMetadata.class);
             String name = featureMetadata.name();
             if (featureMetadata.parameterNames().length > 0) {
-                name = new StringBuilder(name).append(Arrays.toString(featureMetadata.parameterNames())).toString();
+                name = name + Arrays.toString(featureMetadata.parameterNames());
             }
             return name;
         } else {
@@ -89,7 +89,7 @@ class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement,
         }
     }
 
-    private boolean isSpockFeature(final Class clazz) {
+    private boolean isSpockFeature(final Class<?> clazz) {
         return Specification.class.isAssignableFrom(clazz);
     }
 
