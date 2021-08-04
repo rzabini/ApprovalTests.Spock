@@ -35,10 +35,7 @@ scmVersion {
         initialVersion = { tag, position ->
             spotlessChangelog.versionNext
         }
-
-        prefix = project.name + '-'
     }
-
 
     hooks {
         pre { context ->
