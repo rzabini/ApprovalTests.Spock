@@ -4,7 +4,8 @@ plugins {
     id "ru.vyarus.quality" version "4.6.0"
     id 'maven-publish'
     id 'signing'
-
+    id 'pl.allegro.tech.build.axion-release' version '1.13.3'
+    id "com.diffplug.spotless-changelog" version "2.2.0"
 }
 
 apply from: 'gradle/publishing.gradle'
@@ -21,13 +22,34 @@ dependencies {
 }
 
 group = 'com.github.rzabini'
-version = '1.0.4'
 
 test {
-    testLogging {
-        info {
-            events "passed", "skipped", "failed"
-            exceptionFormat "full"
+    useJUnitPlatform()
+}
+
+scmVersion {
+    ignoreUncommittedChanges = false
+    localOnly = false
+
+    tag {
+        initialVersion = { tag, position ->
+            spotlessChangelog.versionNext
+        }
+
+        prefix = project.name + '-'
+    }
+
+
+    hooks {
+        pre { context ->
+            assert context.releaseVersion != context.previousVersion: "you must update changelog to release"
+            assert spotlessChangelog.versionNext == spotlessChangelog.versionLast: "changelog has unreleased changes"
         }
     }
+
+    versionIncrementer { context ->
+        context.currentVersion.valueOf(spotlessChangelog.versionNext)
+    }
 }
+
+version = scmVersion.version
