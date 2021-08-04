@@ -1,9 +1,9 @@
 nexusPublishing {
     repositories {
         sonatype {
-            stagingProfileId = sonatypeStagingProfileId
-            username = ossrhUsername
-            password = ossrhPassword
+            stagingProfileId = findProperty('sonatypeStagingProfileId')
+            username = findProperty('ossrhUsername')
+            password = findProperty('ossrhPassword')
         }
     }
 }
