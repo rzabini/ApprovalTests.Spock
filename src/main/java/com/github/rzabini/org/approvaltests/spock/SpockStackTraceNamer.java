@@ -7,6 +7,7 @@ import com.spun.util.tests.StackTraceReflectionResult;
 import org.approvaltests.namer.ApprovalNamer;
 import org.approvaltests.namer.AttributeStackSelector;
 import org.approvaltests.namer.NamerFactory;
+import org.approvaltests.writers.Writer;
 import org.spockframework.runtime.model.FeatureMetadata;
 import spock.lang.Specification;
 
@@ -102,5 +103,18 @@ class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement,
         }
     }
 
+    @Override
+    public File getApprovedFile(final String extensionWithDot) {
+        return getFileWithRole(extensionWithDot, Writer.approved);
+    }
+
+    @Override
+    public File getReceivedFile(final String extensionWithDot) {
+        return getFileWithRole(extensionWithDot, Writer.received);
+    }
+
+    private File getFileWithRole(final String extensionWithDot, final String role) {
+        return new File(getSourceFilePath() + "/" + getApprovalName() + role + extensionWithDot);
+    }
 }
 
