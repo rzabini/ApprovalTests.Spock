@@ -1,6 +1,7 @@
 package com.github.rzabini.org.approvaltests.spock
 
 import com.spun.util.persistence.Loader
+import groovy.transform.CompileDynamic
 import org.approvaltests.Approvals
 import org.approvaltests.namer.ApprovalNamer
 import org.approvaltests.namer.AttributeStackSelector
@@ -10,6 +11,7 @@ import static groovy.util.GroovyCollections.combinations
 /**
  * class SpockApprovals
  */
+@CompileDynamic
 class SpockApprovals extends Approvals {
 
     static void verifyAllCombinations(Closure function, Object[]... args) {

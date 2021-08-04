@@ -12,50 +12,46 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
-signing {
-    required { !version.endsWith("SNAPSHOT") && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
-}
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.java
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                artifact sourcesJar
+                artifact javadocJar
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: findProperty('ossrhUsername'), password: findProperty('ossrhPassword'))
-            }
-
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: findProperty('ossrhUsername'), password: findProperty('ossrhPassword'))
-            }
-
-            pom.project {
-                name 'ApprovalTests.Spock'
-                packaging 'jar'
-                // optionally artifactId can be defined here 
-                description 'Porting of ApprovalTest verification library for Java to Spock Test Framework.'
-                url 'https://github.com/rzabini/ApprovalTests.Spock'
-
-                scm {
-                    url 'https://github.com/rzabini/ApprovalTests.Spock'
-                }
-
-                licenses {
-                    license {
-                        name 'The Apache License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                pom {
+                    name = 'ApprovalTests.Spock'
+                    description = 'Porting of ApprovalTest verification library for Java to Spock Test Framework.'
+                    url = 'https://github.com/rzabini/ApprovalTests.Spock'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
                     }
-                }
+                    developers {
+                        developer {
+                            id = 'rzabini'
+                            name = 'Romano Zabini'
+                            email = 'romano.zabini@gmail.com'
+                        }
+                    }
 
-                developers {
-                    developer {
-                        id 'rzabini'
-                        name 'Romano Zabini'
-                        email 'romano.zabini@gmail.com'
+                    scm {
+                        connection = 'scm:git:github.com/rzabini/ApprovalTests.Spock.git'
+                        developerConnection = 'scm:git:ssh://github.com/rzabini/ApprovalTests.Spock.git'
+                        url = 'https://github.com/rzabini/ApprovalTests.Spock/tree/master'
                     }
                 }
             }
         }
     }
 }
+
+signing {
+    required { !version.endsWith("SNAPSHOT") }
+    sign publishing.publications
+}
+
