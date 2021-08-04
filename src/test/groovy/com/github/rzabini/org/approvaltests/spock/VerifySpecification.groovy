@@ -1,6 +1,5 @@
 package com.github.rzabini.org.approvaltests.spock
 
-import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 
 class VerifySpecification extends Specification {
