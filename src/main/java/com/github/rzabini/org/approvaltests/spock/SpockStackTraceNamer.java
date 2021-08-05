@@ -1,6 +1,7 @@
 package com.github.rzabini.org.approvaltests.spock;
 
 import com.spun.util.ObjectUtils;
+import com.spun.util.StringUtils;
 import com.spun.util.ThreadUtils;
 import com.spun.util.io.StackElementSelector;
 import com.spun.util.tests.StackTraceReflectionResult;
@@ -23,7 +24,6 @@ import java.util.stream.Collectors;
  */
 class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement, String> {
     private final StackTraceReflectionResult info = getCurrentFileForMethod(new AttributeStackSelector(), this);
-
 
     private static StackTraceReflectionResult getCurrentFileForMethod(
             final StackElementSelector stackElementSelector,
@@ -62,7 +62,22 @@ class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement,
 
     @Override
     public String getSourceFilePath() {
-        return info.getSourceFile().getAbsolutePath() + File.separator;
+        final String sub = NamerFactory.getSubdirectory();
+        final String subdirectory = StringUtils.isEmpty(sub) ? "" : sub + File.separator;
+        final String baseDir = getBaseDirectory();
+        return baseDir + File.separator + subdirectory;
+    }
+
+    private String getBaseDirectory() {
+        String baseDir = info.getSourceFile().getAbsolutePath();
+        if (!StringUtils.isEmpty(NamerFactory.getApprovalBaseDirectory())) {
+            final String packageName = info.getFullClassName().substring(0, info.getFullClassName().lastIndexOf("."));
+            final String packagepath = packageName.replace('.', File.separatorChar);
+            final String currentBase = baseDir.substring(0, baseDir.lastIndexOf(packagepath));
+            final String newBase = currentBase + NamerFactory.getApprovalBaseDirectory() + File.separator + packagepath;
+            baseDir = ObjectUtils.throwAsError(() -> new File(newBase).getCanonicalPath().toString());
+        }
+        return baseDir;
     }
 
     @Override
@@ -82,8 +97,7 @@ class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement,
             final FeatureMetadata featureMetadata = methods.get(0).getAnnotation(FeatureMetadata.class);
             String name = featureMetadata.name();
             if (featureMetadata.parameterNames().length > 0) {
-                name = new StringBuilder(name)
-                        .append(Arrays.toString(featureMetadata.parameterNames())).toString();
+                name = name + Arrays.toString(featureMetadata.parameterNames());
             }
             return name;
         } else {

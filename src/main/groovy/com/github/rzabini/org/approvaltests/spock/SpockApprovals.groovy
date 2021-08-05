@@ -46,10 +46,10 @@ class SpockApprovals extends Approvals {
     static {
         addTestClassAnnotation('org.spockframework.runtime.model.FeatureMetadata')
 
-        Approvals.namerCreater = new Loader<ApprovalNamer>() {
+        namerCreater = new Loader<ApprovalNamer>() {
             @Override
             ApprovalNamer load() {
-                return new ApprovalNamerWithCustomPath(new SpockStackTraceNamer())
+                return new SpockStackTraceNamer()
             }
         }
     }
