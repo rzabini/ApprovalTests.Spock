@@ -5,6 +5,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- use PackageSettings to specify the path of approved/received files
+
 ## [1.0.5] - 2021-08-04
 
 ### Changed
