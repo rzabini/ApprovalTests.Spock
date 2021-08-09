@@ -57,7 +57,7 @@ class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement,
     @Override
     public String getApprovalName() {
         return String.format("%s.%s%s", info.getClassName(), info.getMethodName(),
-                NamerFactory.getAndClearAdditionalInformation());
+                NamerFactory.getAdditionalInformation());
     }
 
     @Override
