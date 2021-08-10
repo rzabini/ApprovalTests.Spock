@@ -5,6 +5,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [2.0.0] - 2021-08-10
+
 ### Changed
 
 **BREAKING**: switch to Spock Extension
