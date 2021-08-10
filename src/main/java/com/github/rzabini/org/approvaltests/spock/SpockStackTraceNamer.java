@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 /**
  * Finds text description of Spock specification methods.
  */
-class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement, String> {
+public class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceElement, String> {
     private final StackTraceReflectionResult info = getCurrentFileForMethod(new AttributeStackSelector(), this);
 
     private static StackTraceReflectionResult getCurrentFileForMethod(
