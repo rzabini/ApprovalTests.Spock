@@ -1,27 +1,28 @@
 package com.github.rzabini.org.approvaltests.spock
 
+import org.approvaltests.Approvals
 import spock.lang.Specification
 
 class VerifySpecification extends Specification {
 
     def "can verify a single string"(){
         expect:
-            SpockApprovals.verify('check me')
+            Approvals.verify('check me')
     }
 
     def "can verify a json object"(){
         expect:
-            SpockApprovals.verifyAsJson(['field':'value'])
+            Approvals.verifyAsJson(['field': 'value'])
     }
 
     def "can verify xml"(){
         expect:
-            SpockApprovals.verifyXml('<parent><child>text</child></parent>')
+            Approvals.verifyXml('<parent><child>text</child></parent>')
     }
 
     def "can verify All"(){
         expect:
-            SpockApprovals.verifyAll('objects', ['one', 'two', 'three'])
+            Approvals.verifyAll('objects', ['one', 'two', 'three'])
     }
 
 }

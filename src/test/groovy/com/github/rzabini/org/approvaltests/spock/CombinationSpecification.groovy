@@ -1,5 +1,6 @@
 package com.github.rzabini.org.approvaltests.spock
 
+import org.approvaltests.combinations.CombinationApprovals
 import spock.lang.Specification
 
 class CombinationSpecification extends Specification {
@@ -8,6 +9,6 @@ class CombinationSpecification extends Specification {
         Integer[] points = [4, 5, 10]
         String[] words = ["Bookkeeper", "applesauce"]
         expect:
-            SpockApprovals.verifyAllCombinations({ i, s -> s.substring(0, i)} , points , words );
+            CombinationApprovals.verifyAllCombinations({ i, s -> s.substring(0, i) }, points, words);
     }
 }

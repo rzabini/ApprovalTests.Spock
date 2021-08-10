@@ -1,6 +1,7 @@
 package com.github.rzabini.org.approvaltests.spock
 
 import dk.bitcraft.lc.JUnit5LogCollector
+import org.approvaltests.Approvals
 import spock.lang.Specification
 
 import java.util.logging.Logger
@@ -14,7 +15,7 @@ class LoggingSpecification extends Specification {
         when:
             new LoggingApplication("Sample").doSomethingAndLog("hello world")
         then:
-            SpockApprovals.verifyAll('', collector.rawLogs.message)
+            Approvals.verifyAll('', collector.rawLogs.message)
     }
 }
 

@@ -1,7 +1,7 @@
 package com.github.rzabini.org.approvaltests.spock
 
+import org.approvaltests.Approvals
 import spock.lang.Specification
-import com.github.rzabini.org.approvaltests.spock.SpockApprovals as Approvals
 
 class SampleArraySpecification extends Specification {
 

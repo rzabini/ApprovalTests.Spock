@@ -1,5 +1,6 @@
 package com.github.rzabini.org.approvaltests.spock
 
+import org.approvaltests.Approvals
 import spock.lang.Specification
 import spock.lang.TempDir
 
@@ -8,7 +9,7 @@ import java.nio.file.Path
 
 class FileBasedVerifySpecification extends Specification {
     @TempDir
-    public Path testFolder //= new TemporaryFolder()
+    public Path testFolder
 
     private Path baseFolder
 
@@ -20,13 +21,12 @@ class FileBasedVerifySpecification extends Specification {
 
     def "can verify each file in directory"() {
         expect:
-            SpockApprovals.verifyEachFileInDirectory(baseFolder.toFile())
+            Approvals.verifyEachFileInDirectory(baseFolder.toFile())
     }
 
     def "can verify each file in directory with filter"(){
         expect:
-            SpockApprovals.verifyEachFileInDirectory(baseFolder.toFile(),
+            Approvals.verifyEachFileInDirectory(baseFolder.toFile(),
                     { File afile -> afile.name == 'sample.txt' } as FileFilter)
     }
-
 }
