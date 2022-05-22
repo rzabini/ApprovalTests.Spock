@@ -10,6 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 
 **BREAKING**: switch to Spock Extension
+- upgrade dependencies
 
 ### Added
 
