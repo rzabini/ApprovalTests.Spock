@@ -110,11 +110,7 @@ public class SpockStackTraceNamer implements ApprovalNamer, Function<StackTraceE
     }
 
     private Class<?> getClazz(final String fullClassName) {
-        try {
-            return ObjectUtils.loadClass(fullClassName);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException(e);
-        }
+        return ObjectUtils.loadClass(fullClassName);
     }
 
     @Override

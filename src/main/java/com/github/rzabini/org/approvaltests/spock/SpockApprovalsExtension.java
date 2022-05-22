@@ -43,9 +43,9 @@ public class SpockApprovalsExtension implements IGlobalExtension {
         public void intercept(final IMethodInvocation invocation) throws Throwable {
             final Map<String, Object> dataVariables = invocation.getIteration().getDataVariables();
             if (dataVariables.isEmpty()) {
-                NamerFactory.additionalInformation = null;
+                NamerFactory.setAdditionalInformation(null);
             } else {
-                NamerFactory.additionalInformation = Arrays.toString(dataVariables.entrySet().toArray());
+                NamerFactory.setAdditionalInformation(Arrays.toString(dataVariables.entrySet().toArray()));
             }
 
             invocation.proceed();
