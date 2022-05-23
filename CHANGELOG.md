@@ -19,6 +19,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 
 - allow approvals in parameterized methods
+- set compatibility to Java 8
 
 ## [1.0.5] - 2021-08-04
 
